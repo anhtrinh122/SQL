@@ -1,9 +1,10 @@
 USE AdventureWorks2022
 GO
-
+--Lấy ra dữ liệu của bảng Contact có ContactID >= 100 và ContactID <= 200
 SELECT * FROM Person.Person
 WHERE BusinessEntityID >= 100 AND BusinessEntityID <= 200
 
+--Lấy ra dữ liệu của bảng Contact có ContactID trong khoảng [100,200]
 SELECT * FROM Person.Person
 WHERE BusinessEntityID BETWEEN 100 AND 200
 
@@ -13,24 +14,33 @@ WHERE BusinessEntityID BETWEEN 10 AND 20
 SELECT * FROM Person.Person
 WHERE BusinessEntityID IN (100, 107, 200, 2210)
 
+--Lấy ra dữ liệu của bảng Contact có ContactID trong tập hợp (100,107,200)
 SELECT * FROM Person.Person
 WHERE MiddleName IN('B','M','T')
 
+--Lấy ra những Contact có LastName kết thúc bởi ký tự e (WILDCARD LIKE SQL Microsoft)
 SELECT * FROM Person.Person
 WHERE LastName LIKE '%e'
 
+--Lấy ra những Contact có LastName bắt đầu bởi ký tự R hoặc A kết thúc bởi Ký tự e
 SELECT * FROM Person.Person
 WHERE LastName LIKE '[RA]%e'
 
+--Lấy ra những Contact có LastName có 4 ký tự bắt đầu bởi ký tự R hoặc A kết thúc bởi ký tự e
 SELECT * FROM Person.Person
 WHERE LastName LIKE '[RA]_e'
 
+
+--Sử dụng DISTINCT các dữ liệu trùng lặp bị loại bỏ
 SELECT DISTINCT Title FROM Person.Person
 
+--Sử dụng GROUP BY các dữ liệu trùng lặp được gộp thành nhóm
+--Aggregate function: sum, max, min, count, avg ..
 SELECT Count(BusinessEntityID) as TotalID, Title
 FROM Person.Person
 GROUP BY Title
 
+--Do đó ta có thể sử dụng được với các hàm tập hợp
 SELECT Title, COUNT(*) [Title Number]
 FROM Person.Person
 GROUP BY Title
@@ -52,7 +62,7 @@ ON Person.BusinessEntityID = SalesPerson.BusinessEntityID
 
 SELECT * FROM Person.Person RIGHT OUTER JOIN Sales.SalesPerson
 ON Person.BusinessEntityID = SalesPerson.BusinessEntityID
-
+--Ta có thể sử dụng mệnh đề WHERE để thỏa mãn điều kiện tìm kiếm
 SELECT Title, COUNT(*)
 FROM Person.Person
 GROUP BY Title
@@ -65,6 +75,8 @@ HAVING COUNT(BusinessEntityID) > 100
 
 SELECT * FROM Person.Person
 
+--GROUP BY với ALL sẽ lấy ra các hàng bị loại bỏ bởi mệnh đề WHERE
+--( Vì mệnh đề WHERE sẽ lọc kết quả sau khi đã được gộp nhóm)
 SELECT Title, COUNT(*) [Tilte Number]
 FROM Person.Person
 WHERE Title LIKE 'Mr%'
@@ -72,6 +84,7 @@ GROUP BY Title
 
 SELECT * FROM Person.Person
 
+--GROUP BY với HAVING: mệnh đề HAVING sẽ lọc kết quả trong lúc được gộp nhóm
 SELECT Title, COUNT(*) [Title Number]
 FROM Person.Person
 GROUP BY ALL Title
